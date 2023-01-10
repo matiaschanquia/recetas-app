@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Receta from "./Receta";
 
 const Search = () => {
+    const getRecetasStorage = JSON.parse(sessionStorage.getItem("recetas"));
     const [input, setInput] = useState("");
-    const [recetas, setRecetas] = useState([]);
+    const [recetas, setRecetas] = useState(getRecetasStorage || []);
     const [loading, setLoading] = useState(false);
 
     const submitHandler = (e) => {
@@ -25,6 +26,9 @@ const Search = () => {
                 setLoading(false);
             });
     }
+    useEffect(() => {
+        sessionStorage.setItem("recetas", JSON.stringify(recetas))
+    }, [recetas])
 
     const clickHandlerLimpiar = () => {
         setRecetas([]);
